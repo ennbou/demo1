@@ -2,6 +2,8 @@ package com.ennbou.mvvm.uicontrollers
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,18 +26,20 @@ class ListActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.user_list)
         val userListRefresh: SwipeRefreshLayout = findViewById(R.id.user_list_refresh)
+        val notFoundImageView: ImageView = findViewById(R.id.not_found)
 
         val adapter = UserAdapter(this)
 
-        userViewModel.getUsers(this)
-
         userViewModel.users.observe(this, Observer {
             adapter.setAndRefresh(it)
+            if (it.isNotEmpty() && notFoundImageView.visibility == View.VISIBLE) {
+                notFoundImageView.visibility = View.GONE
+            }
             Log.d("USERS Update", "Done")
         })
 
         userListRefresh.setOnRefreshListener {
-            adapter.notifyDataSetChanged()
+            userViewModel.getUsers(this)
             userListRefresh.isRefreshing = false
         }
 
@@ -43,7 +47,7 @@ class ListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        val itemTouchHelper = ItemTouchHelper(UserItemSwipe(adapter,recyclerView, userViewModel))
+        val itemTouchHelper = ItemTouchHelper(UserItemSwipe(adapter, recyclerView, userViewModel))
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }

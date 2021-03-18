@@ -1,6 +1,7 @@
 package com.ennbou.mvvm.database
 
 import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Build
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -37,6 +38,17 @@ class UserDBTest {
         val user = User(1, "name 1", "username 1", "email1@ennbou.com", "0623343243", "ennbou.com")
         val userId = userDao.insert(user)
         assertThat(userId).isAtMost(1)
+    }
+
+
+    @Test(expected = SQLiteConstraintException::class)
+    fun `ginsert user with (id=1) and get 1`() = runBlocking {
+        val user = User(1, "name 1", "username 1", "email1@ennbou.com", "0623343243", "ennbou.com")
+        val user2 = User(2, "name 1", "username 1", "email1@ennbou.com", "0623343243", "ennbou.com")
+        val userId = userDao.insert(user)
+        val userId2 = userDao.insert(user2)
+        assertThat(userId).isAtMost(1)
+        assertThat(userId2).isAtMost(2)
     }
 
     @Test

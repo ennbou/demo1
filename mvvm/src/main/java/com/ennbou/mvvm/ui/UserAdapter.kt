@@ -26,7 +26,7 @@ class UserAdapter(val context: Context) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private var users: MutableList<UserDetails> = mutableListOf()
-
+//
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = itemView.findViewById(R.id.user_name)
         val username: TextView = itemView.findViewById(R.id.user_username)

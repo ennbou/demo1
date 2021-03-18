@@ -13,6 +13,7 @@ import com.ennbou.mvvm.viewmodels.DetailsViewModel
 import com.squareup.picasso.Picasso
 
 class DetailsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
