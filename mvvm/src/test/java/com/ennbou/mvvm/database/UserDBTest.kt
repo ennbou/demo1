@@ -40,17 +40,6 @@ class UserDBTest {
         assertThat(userId).isAtMost(1)
     }
 
-
-    @Test(expected = SQLiteConstraintException::class)
-    fun `ginsert user with (id=1) and get 1`() = runBlocking {
-        val user = User(1, "name 1", "username 1", "email1@ennbou.com", "0623343243", "ennbou.com")
-        val user2 = User(2, "name 1", "username 1", "email1@ennbou.com", "0623343243", "ennbou.com")
-        val userId = userDao.insert(user)
-        val userId2 = userDao.insert(user2)
-        assertThat(userId).isAtMost(1)
-        assertThat(userId2).isAtMost(2)
-    }
-
     @Test
     fun `delete user who has id = 1 will return 1`() = runBlocking {
         val id = 1
